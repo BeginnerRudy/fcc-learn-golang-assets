@@ -516,11 +516,64 @@ Important rules
     fmt.Println("Value stored in y(*p) = ", *p)     <========== Dereferencing the Pointer
     ```
 ## Local Developments
+- The official package management tool is ***Go Module***.
+### Package
+- There are 2 kinds of packages: main package and other
+- Only the file in main package can be compiled to an executable file.
+- The customized packages
+    - There should be only 1 package under 1 directory while there can be multiple files inside a directory
+    - However, there can be packages inside sub-directorise.
+- Import rule
+    ```
+    import (
+        "fmt"
+        "./service"
+        apiNew "./service/api" <--- rename the package
+        "github.com/rsj217/service"
+    )
+    ```
+### Module
+- https://juejin.cn/post/6869570760738865166
+- 还记得一个package是.go文件的集合么? 一个Module就是package(go 包)的集合. 即: 一个Module--多个package; 一个package--多个.go文件.
+- 在一个module的树状存储结构的根部, 必须有一个go.mod文件, 该文件定义了如下内容:
+    - 此module的module path(也是根目录里的package的import path)
+    - 该module的编译所需的依赖module. 每个依赖项的结构都是 依赖module的module path + 版本semantic versioin.
+
+### Golang commands
 
 ## Channels and concurrenty
+- https://www.geeksforgeeks.org/channel-in-golang/
+### Goroutines
 
 ## Mutex
 
 ## Generics
+### Type parameters
+```
+import "golang.org/x/exp/constraints"
 
+type store[P product] interface {
+    sell(P)
+}
+
+func GMin[T constraints.Ordered](x, y T) T {
+    if x < y {
+        return x
+    }
+    return y
+}
+
+// Providing the type argument to GMin, in this case int, is called instantiation. 
+x := GMin[int](2, 3)
+
+// After successful instantiation we have a non-generic function that can be called just like any other function. For example, in code like
+fmin := GMin[float64]
+m := fmin(2.71, 3.14)
+```
+### Type sets
+```
+type Ordered interface {
+    Integer|Float|~string
+}
+```
 ## Go facts
